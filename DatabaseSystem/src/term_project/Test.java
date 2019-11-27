@@ -8,12 +8,14 @@ import java.util.Scanner;
 public class Test 
 {
 	String user_name;
+	public static Connection conn;
 	
 	public static void main(String args[])
 	{ 
 		Scanner input = new Scanner(System.in);
 		
 		Magazine mg = new Magazine();
+		Lend ld = new Lend();
 		
 		boolean loop_a = true;
 		int menu = 0;
@@ -60,6 +62,12 @@ public class Test
 			case 8:
 				mg.PrintMagazinesByTheme();
 				break;
+			case 9:
+				mg.PrintMagazinesByReleasedate();
+				break;
+			case 10:
+				ld.LendMagazine();
+				break;
 			case 99:
 				System.out.println("Bye~");
 				loop_a = false;
@@ -74,12 +82,13 @@ public class Test
 		
 		System.out.println("Connecting MySQL ....");
 		
+		String jdbc_driver = "com.mysql.cj.jdbc.Driver";
+		
 		try { 
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			Class.forName(jdbc_driver);
 			
-			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
-
-			conn.close(); 
+			conn = DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
+		
 		} catch(Exception e){ System.out.println(e);} 
 	}
 	
@@ -89,7 +98,6 @@ public class Test
 		
 		System.out.println("Registering User ....");
 		System.out.print("이름을 입력해주세요: ");
-		
 		String user_name = input.next();
 		
 		try
@@ -143,11 +151,7 @@ public class Test
 		System.out.println("Printing User ....");
 		
 		try
-		{ 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
-			
+		{
 			Statement stmt = conn.createStatement();
 			
 			ResultSet rs	= stmt.executeQuery("SELECT * FROM user");

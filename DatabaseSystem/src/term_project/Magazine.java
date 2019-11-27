@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -19,6 +17,8 @@ public class Magazine {
 	boolean adult_stat;
 	String magazine_theme;
 	Date magazine_releasedate;
+	
+	Scanner input = new Scanner(System.in);
 	
 	public Magazine() {
 		
@@ -57,8 +57,6 @@ public class Magazine {
 	
 	public void PrintMagazinesByTheme() {
 		
-		Scanner input = new Scanner(System.in);
-		
 		System.out.println("Printing Magazines By Theme ....");
 		
 		try
@@ -95,7 +93,50 @@ public class Magazine {
 
 			System.out.println("============================================================================");
 	
-			conn.close(); 
+			conn.close();
+		} catch(Exception e){ System.out.println(e); } 
+	}
+	
+	public void PrintMagazinesByReleasedate() {
+		
+		System.out.println("Printing Magazines By ReleaseDate ....");
+		
+		try
+		{ 
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
+			
+			System.out.println("[1] 01월 \t [2] 02월 \t [3] 03월 \t [ 4] 04월\t [ 5] 05월 \t [ 6] 06월 ");
+			System.out.println("[7] 07월 \t [8] 08월 \t [9] 09월 \t [10] 10월\t [11] 11월 \t [12] 12월 ");
+			
+			System.out.print("날짜(월)를 선택해주세요 ( Ex. 01 ) > ");
+			
+			String releasedate_menu = input.next();
+			
+			PreparedStatement pstmt = null;
+			
+			String sql = "SELECT magazinename, publishername, magazinepage, magazinereleasedate, magazinetheme FROM magazine, publisher "
+					+ "WHERE magazine.publisherid = publisher.publisherid && DATE_FORMAT(magazinereleasedate, '%m') = ?;";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, releasedate_menu);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			System.out.println("============================================================================");
+			System.out.printf("%30s \t| %25s \t| %15s | %20s \t| %20s \n", "잡지명", "출판사명", "쪽수", "출시일", "주제");
+			
+			
+			while(rs.next())
+			{
+				System.out.printf("%30s \t| %25s \t| %15d | %20s \t| %20s \n", rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5));
+			}
+
+			System.out.println("============================================================================");
+	
+			conn.close();
 		} catch(Exception e){ System.out.println(e); } 
 	}
 }
