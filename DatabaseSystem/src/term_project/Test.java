@@ -1,7 +1,8 @@
+package term_project;
+
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Test 
@@ -11,6 +12,8 @@ public class Test
 	public static void main(String args[])
 	{ 
 		Scanner input = new Scanner(System.in);
+		
+		Magazine mg = new Magazine();
 		
 		boolean loop_a = true;
 		int menu = 0;
@@ -51,6 +54,12 @@ public class Test
 			case 11:
 				PrintPublishers();
 				break;
+			case 7:
+				mg.PrintMagazines();
+				break;
+			case 8:
+				mg.PrintMagazinesByTheme();
+				break;
 			case 99:
 				System.out.println("Bye~");
 				loop_a = false;
@@ -65,22 +74,13 @@ public class Test
 		
 		System.out.println("Connecting MySQL ....");
 		
-		try
-		{ 
+		try { 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
-			
-			Statement stmt = conn.createStatement();
-			
-			ResultSet rs	= stmt.executeQuery("SELECT * FROM user");
-			
-			while(rs.next()) 
-				System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3));
-			
+
 			conn.close(); 
-		}
-		catch(Exception e){ System.out.println(e);} 
+		} catch(Exception e){ System.out.println(e);} 
 	}
 	
 	public static void RegisterUser() {
