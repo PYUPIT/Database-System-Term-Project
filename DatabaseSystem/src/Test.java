@@ -3,6 +3,8 @@ import java.util.Scanner;
 
 public class Test 
 {
+	String user_name;
+	
 	public static void main(String args[])
 	{ 
 		Scanner input = new Scanner(System.in);
@@ -31,6 +33,15 @@ public class Test
 			case 1:
 				Connecting();
 				break;
+			case 2:
+				RegisterUser();
+				break;
+			case 4:
+				DeleteUser();
+				break;
+			case 5:
+				PrintUsers();
+				break;
 			case 99:
 				System.out.println("Bye~");
 				loop_a = false;
@@ -49,14 +60,98 @@ public class Test
 		{ 
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			
-			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/madang","dbuser", "1234");
+			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
 			
 			Statement stmt = conn.createStatement();
 			
-			ResultSet rs	= stmt.executeQuery("SELECT * FROM Book");
+			ResultSet rs	= stmt.executeQuery("SELECT * FROM user");
 			
 			while(rs.next()) 
 				System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getString(3));
+			
+			conn.close(); 
+		}
+		catch(Exception e){ System.out.println(e);} 
+	}
+	
+	public static void RegisterUser() {
+		
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("Registering User ....");
+		System.out.print("이름을 입력해주세요: ");
+		
+		String user_name = input.next();
+		
+		try
+		{ 
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
+			
+			Statement stmt = conn.createStatement();
+			
+			PreparedStatement pstmt = null;
+			
+			String sql = "INSERT INTO user(username, password, userbirthday) VALUES(?,?,?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "유재석");
+			pstmt.setString(2, "123456");
+			pstmt.setString(3, "1972-10-03");
+			
+			pstmt.executeUpdate();
+			
+			conn.close(); 
+		} catch(Exception e){ System.out.println(e);} 
+	}
+	
+	public static void DeleteUser() {
+		
+		try
+		{ 
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
+			
+			PreparedStatement pstmt = null;
+			
+			String sql = "DELETE FROM user WHERE userid = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "2");
+			
+			pstmt.executeUpdate();
+			
+			conn.close(); 
+		} catch(Exception e){ System.out.println(e);} 
+	}
+	
+	public static void PrintUsers() {
+		
+		System.out.println("Printing User ....");
+		
+		try
+		{ 
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			
+			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
+			
+			Statement stmt = conn.createStatement();
+			
+			ResultSet rs	= stmt.executeQuery("SELECT * FROM user");
+			
+			System.out.println("============================================================================");
+			System.out.printf("%7s | %10s | %15s | %15s \n", "User ID", "회원 이름", "생년월일", "PASSWORD");
+			
+			while(rs.next())
+			{
+				System.out.printf("%7s | %10s | %15s | %15s \n", rs.getInt(1), rs.getString(2), rs.getString(3), "***********");
+			}
+
+			System.out.println("============================================================================");
 			
 			conn.close(); 
 		}
