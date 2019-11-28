@@ -23,10 +23,10 @@ public class Publish {
 			
 			PreparedStatement pstmt = null;
 			
-			String sql = "INSERT INTO magazine(magazinename, publisherid, magazinepage, magazinereleasedate, magezinetheme) VALUES(?,?,?,?,?)";
+			String sql = "INSERT INTO magazine(magazinename, publisherid, magazinepage, magazinereleasedate, magazinetheme) VALUES(?,?,?,?,?)";
 			
 			System.out.print("잡지명을 입력해주세요 : ");
-			String magazine_name  = input.next();
+			String magazine_name  = input.nextLine();
 			System.out.print("출판사 ID를 입력해주세요 : ");
 			String publisher_id  = input.next();
 			System.out.print("페이지 수를 입력해주세요 : ");
