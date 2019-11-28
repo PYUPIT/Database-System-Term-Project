@@ -3,7 +3,7 @@ package term_project;
 import java.sql.*;
 import java.util.Scanner;
 
-public class Test 
+public class MENU 
 {
 	public static Connection conn;
 	
