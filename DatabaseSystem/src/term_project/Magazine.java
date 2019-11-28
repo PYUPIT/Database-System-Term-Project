@@ -20,7 +20,18 @@ public class Magazine {
 	
 	Scanner input = new Scanner(System.in);
 	
-	public Magazine() {
+	public Magazine() {}
+	
+	Connection conn;
+	
+	public void SetConnection(String url, String usr, String pwd) {
+		
+		try
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		
+			conn = DriverManager.getConnection(url, usr, pwd);
+		} catch (Exception e) {}
 		
 	}
 	
@@ -29,11 +40,7 @@ public class Magazine {
 		System.out.println("Printing Magazines ....");
 		
 		try
-		{ 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
-			
+		{
 			Statement stmt = conn.createStatement();
 			
 			ResultSet rs = stmt.executeQuery(
@@ -61,10 +68,6 @@ public class Magazine {
 		
 		try
 		{ 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
-			
 			System.out.println("[1] 운동 \t [2] 음식 \t [3] 과학 \t [4] 자동차\t [5] 컴퓨터 \t [6] 문화 \t [7] 경제 \t [8] 19 \t");
 			
 			System.out.print("장르를 선택해주세요 ( Ex. 운동 ) > ");
@@ -103,10 +106,6 @@ public class Magazine {
 		
 		try
 		{ 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
-			
 			System.out.println("[1] 01월 \t [2] 02월 \t [3] 03월 \t [ 4] 04월\t [ 5] 05월 \t [ 6] 06월 ");
 			System.out.println("[7] 07월 \t [8] 08월 \t [9] 09월 \t [10] 10월\t [11] 11월 \t [12] 12월 ");
 			

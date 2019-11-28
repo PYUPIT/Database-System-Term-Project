@@ -10,24 +10,46 @@ import java.util.Scanner;
 
 public class Lend {
 	
-	String user_id = "1";
+	String user_id;
 	
 	Scanner input = new Scanner(System.in);
 	
-	public Lend(String user_id) {
+	public Lend() {}
+	
+	Connection conn;
+	
+	public void SetConnection(String url, String usr, String pwd) {
+		/*
+		 * 데이터베이스와 연동을 위한 메소드
+		 * MENU 1번이 사전에 실행되어야만  데이터베이스에 연동이 됩니다.
+		 */
+		try
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		
+			conn = DriverManager.getConnection(url, usr, pwd);
+		} catch (Exception e) {}
+		
+	}
+	
+	void SetUserID(String user_id) {
+		/*
+		 * 해당 클래스의 메소드는 로그인 되어야만 사용이 가능하므로 해당 메소드는 ID를 불러오는 기능을 수행합니다.
+		 */
 		this.user_id = user_id;
 	}
 	
 	public void LendMagazine() {
 		
+		if(user_id == null) {
+			System.out.println("잡지를 대여하기 위해서는 로그인을 해주셔야 합니다.");
+			return ;
+		}
+		
 		System.out.println("Lending megazine ....\n");
 		
 		try
 		{ 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
-			
 			PreparedStatement pstmt = null;
 			
 			String sql_paying = "SELECT payingmethod FROM paying WHERE userid = ?";

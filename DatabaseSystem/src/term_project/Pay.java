@@ -13,6 +13,24 @@ public class Pay {
 	
 	Scanner input = new Scanner(System.in);
 	
+	public Pay () {}
+	
+	Connection conn;
+	
+	public void SetConnection(String url, String usr, String pwd) {
+		/*
+		 * 데이터베이스와 연동을 위한 메소드
+		 * MENU 1번이 사전에 실행되어야만  데이터베이스에 연동이 됩니다.
+		 */
+		try
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		
+			conn = DriverManager.getConnection(url, usr, pwd);
+		} catch (Exception e) {}
+		
+	}
+	
 	void SetUserID(String user_id) {
 		
 		this.user_id = user_id;
@@ -25,22 +43,20 @@ public class Pay {
 			return ;
 		}
 		
+		PreparedStatement pstmt = null;
+		
 		System.out.println("Registering Ticket ....");
 		
 		System.out.println("구독권 구매 요금은 월 9,900원 입니다.");
+		
 		System.out.print("[1] 카드  \t [2] 상품권  \t [3] 쿠폰 \t [4] 계좌이체 \t [5] 휴대폰결제  \n");
+		
 		System.out.print("결제 수단을 선택해주세요 ( Ex. 카드  )>> ");
 		
 		String method_menu = input.next();
 		
 		try
-		{ 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
-			
-			PreparedStatement pstmt = null;
-			
+		{ 	
 			String sql = "INSERT INTO paying(userid, payingmethod, payingcharge, payingdate, expirationdate) VALUES(?,?,?,?,?)";
 			
 			pstmt = conn.prepareStatement(sql);

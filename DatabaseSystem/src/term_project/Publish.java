@@ -9,9 +9,7 @@ public class Publish {
 	
 	Scanner input = new Scanner(System.in);
 	
-	public Publish() {
-		
-	}
+	public Publish() {}
 	
 	public void PublishMagazine() {
 		

@@ -12,14 +12,26 @@ public class Publisher {
 	
 	public Publisher() {}
 	
+	Connection conn;
+	
+	public void SetConnection(String url, String usr, String pwd) {
+		/*
+		 * 데이터베이스와 연동을 위한 메소드
+		 * MENU 1번이 사전에 실행되어야만  데이터베이스에 연동이 됩니다.
+		 */
+		try
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		
+			conn = DriverManager.getConnection(url, usr, pwd);
+		} catch (Exception e) {}
+		
+	}
+	
 	public void PrintPublishers() {
 		
 		try
 		{ 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
-			
 			Statement stmt = conn.createStatement();
 			
 			ResultSet rs = stmt.executeQuery("SELECT * FROM publisher");
