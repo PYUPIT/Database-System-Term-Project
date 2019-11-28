@@ -92,6 +92,8 @@ public class Rate {
 				pstmt.setString(3, ratingscore);
 				
 				pstmt.executeUpdate();
+				
+				System.out.println("\n 평가 완료! \n");
 			}
 		} catch(Exception e) {}
 	}
