@@ -68,7 +68,7 @@ public class Magazine {
 		
 		try
 		{ 
-			System.out.println("[1] 운동 \t [2] 음식 \t [3] 과학 \t [4] 자동차\t [5] 컴퓨터 \t [6] 문화 \t [7] 경제 \t [8] 19 \t");
+			System.out.println("[1] 운동 \t [2] 음식 \t [3] 과학 \t [4] 자동차\t [5] 컴퓨터 \t [6] 문화 \t [7] 경영 \t");
 			
 			System.out.print("장르를 선택해주세요 ( Ex. 운동 ) > ");
 			
