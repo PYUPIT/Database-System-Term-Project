@@ -14,7 +14,9 @@ public class Lend {
 	
 	Scanner input = new Scanner(System.in);
 	
-	public Lend() {}
+	public Lend(String user_id) {
+		this.user_id = user_id;
+	}
 	
 	public void LendMagazine() {
 		

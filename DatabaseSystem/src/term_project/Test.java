@@ -7,33 +7,39 @@ import java.util.Scanner;
 
 public class Test 
 {
-	String user_name;
 	public static Connection conn;
+	
+	static String user_id;
 	
 	public static void main(String args[])
 	{ 
 		Scanner input = new Scanner(System.in);
 		
+		User us = new User();
 		Magazine mg = new Magazine();
-		Lend ld = new Lend();
-		
+		Lend ld = new Lend(user_id);
+		Rate rt = new Rate();
+		Publisher pb = new Publisher();
+		Publish ps = new Publish();
 		boolean loop_a = true;
 		int menu = 0;
 		
 		while(loop_a) {
 			System.out.println(" ");
-			System.out.println("------------------------------------------------------------");
-			System.out.println(" Database System Term Project ");
+			System.out.println("------------------------------------------------------------------------");
+			System.out.println(" 						Database System Term Project	 				");
 			System.out.println(" 월정액 잡지 대여 서비스 ");
-			System.out.println(" at Chungbuk National University Made By Jin Jun-ho");
-			System.out.println("------------------------------------------------------------");
-			System.out.println(" 1. connection		2. ********* ");
-			System.out.println(" 3. ********		4. ******** ");
-			System.out.println(" 5. ********	6. ******** ");
-			System.out.println(" 7. ********	8. ******** ");
-			System.out.println(" 99. quit");
-			System.out.println("------------------------------------------------------------");
-			System.out.print("Enter an integer: ");
+			System.out.println("			At Chungbuk National University Made By Junho Jin			");
+			System.out.println("------------------------------------------------------------------------");
+			System.out.println("  1. 연동하기			 2. 로그인			\t 3. 회원등록하기					");
+			System.out.println("  4. 회원정보 수정하기	 5. 회원 탈퇴하기 		 6. 모든 회원정보 출력하기				");
+			System.out.println("  7. 구독권 결제하기		 8. 잡지 목록 출력하기	 9. 주제별 잡지 출력하기 					");
+			System.out.println(" 10. 월별 잡지 출력하기	11. 출판사 목록 출력하기	12. 잡지 등록하기					");
+			System.out.println(" 13. 대여하기			14. 평점 부여하기		15. 잡지 평점 확인하기					");
+			System.out.println(" 99. 프로그램 종료															");
+			System.out.println("------------------------------------------------------------------------");
+			
+			System.out.print("Select a Menu : ");
 			
 			menu = input.nextInt();
 			
@@ -42,6 +48,9 @@ public class Test
 				Connecting();
 				break;
 			case 2:
+				user_id = us.Login();
+				break;
+			case 3:
 				RegisterUser();
 				break;
 			case 4:
@@ -54,7 +63,7 @@ public class Test
 				PayingTicket();
 				break;
 			case 11:
-				PrintPublishers();
+				pb.PrintPublishers();
 				break;
 			case 7:
 				mg.PrintMagazines();
@@ -67,6 +76,15 @@ public class Test
 				break;
 			case 10:
 				ld.LendMagazine();
+				break;
+			case 12:
+				ps.PublishMagazine();
+				break;
+			case 14:
+				rt.RateMagazine();
+				break;
+			case 15:
+				rt.CheckRatingScore();
 				break;
 			case 99:
 				System.out.println("Bye~");
@@ -217,34 +235,5 @@ public class Test
 			
 			conn.close(); 
 		} catch(Exception e){ System.out.println(e);} 
-	}
-	
-	public static void PrintPublishers() {
-		
-		System.out.println("Printing Pulishers ....");
-		
-		try
-		{ 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			Connection conn	= DriverManager.getConnection("jdbc:mysql://192.168.56.101:3308/dbproject","dbuser", "1234");
-			
-			Statement stmt = conn.createStatement();
-			
-			ResultSet rs	= stmt.executeQuery("SELECT * FROM publisher");
-			
-			System.out.println("============================================================================");
-			System.out.printf("%7s | %30s \t| %15s \n", "출판사 ID", "출판사 이름", "전화번호");
-			
-			while(rs.next())
-			{
-				System.out.printf("%7d | %30s \t| %15d \n", rs.getInt(1), rs.getString(2), rs.getInt(3));
-			}
-
-			System.out.println("============================================================================");
-			
-			conn.close(); 
-		}
-		catch(Exception e){ System.out.println(e);} 
 	}
 }
